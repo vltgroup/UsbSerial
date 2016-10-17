@@ -230,6 +230,12 @@ public class BLED112SerialDevice extends UsbSerialDevice
     }
 
     @Override
+    public void getRing(UsbRingCallback ringCallback)
+    {
+        //TODO
+    }
+
+    @Override
     public void getDSR(UsbDSRCallback dsrCallback)
     {
         //TODO

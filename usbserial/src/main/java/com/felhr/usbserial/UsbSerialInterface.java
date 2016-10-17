@@ -52,6 +52,7 @@ public interface UsbSerialInterface
     void setDTR(boolean state);
     void getCTS(UsbCTSCallback ctsCallback);
     void getDSR(UsbDSRCallback dsrCallback);
+    void getRing(UsbRingCallback ringCallback);
 
     // Status methods
     void getBreak(UsbBreakCallback breakCallback);
@@ -88,6 +89,11 @@ public interface UsbSerialInterface
     interface UsbParityCallback
     {
         void onParityError();
+    }
+
+    interface UsbRingCallback
+    {
+        void onRing(boolean ringState);
     }
 
     // Usb Read Callback

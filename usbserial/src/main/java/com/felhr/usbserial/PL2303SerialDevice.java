@@ -300,6 +300,13 @@ public class PL2303SerialDevice extends UsbSerialDevice
         //TODO
     }
 
+    @Override
+    public void getRing(UsbRingCallback ringCallback)
+    {
+        //TODO
+    }
+
+
     private boolean openPL2303()
     {
         if(connection.claimInterface(mInterface, true))

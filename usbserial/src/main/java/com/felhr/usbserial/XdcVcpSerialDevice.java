@@ -346,6 +346,13 @@ public class XdcVcpSerialDevice extends UsbSerialDevice
         //TODO
     }
 
+    @Override
+    public void getRing(UsbRingCallback ringCallback)
+    {
+        //TODO
+    }
+
+
     private int setControlCommand(int request, int value, byte[] data)
     {
         int dataLength = 0;

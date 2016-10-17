@@ -326,6 +326,13 @@ public class CH34xSerialDevice extends UsbSerialDevice
     }
 
     @Override
+    public void getRing(UsbRingCallback ringCallback)
+    {
+        //TODO
+    }
+
+
+    @Override
     public void getCTS(UsbCTSCallback ctsCallback)
     {
         this.ctsCallback = ctsCallback;

@@ -61,6 +61,7 @@ public class CP2102SerialDevice extends UsbSerialDevice
     private boolean dtrDsrEnabled;
     private boolean ctsState;
     private boolean dsrState;
+    private boolean ringState;
 
     private UsbCTSCallback ctsCallback;
     private UsbDSRCallback dsrCallback;
@@ -77,6 +78,7 @@ public class CP2102SerialDevice extends UsbSerialDevice
     private UsbSerialInterface.UsbBreakCallback breakCallback;
     private UsbSerialInterface.UsbFrameCallback frameCallback;
     private UsbSerialInterface.UsbOverrunCallback overrunCallback;
+    private UsbSerialInterface.UsbRingCallback ringCallback;
 
     public CP2102SerialDevice(UsbDevice device, UsbDeviceConnection connection)
     {
@@ -86,6 +88,7 @@ public class CP2102SerialDevice extends UsbSerialDevice
     public CP2102SerialDevice(UsbDevice device, UsbDeviceConnection connection, int iface)
     {
         super(device, connection);
+        ringState     = false;
         rtsCtsEnabled = false;
         dtrDsrEnabled = false;
         ctsState = true;
@@ -110,6 +113,7 @@ public class CP2102SerialDevice extends UsbSerialDevice
 
             // Create Flow control thread but it will only be started if necessary
             createFlowControlThread();
+            startFlowControlThread();
 
             // Pass references to the threads
             setThreadsParams(requestIN, outEndpoint);
@@ -355,6 +359,9 @@ public class CP2102SerialDevice extends UsbSerialDevice
     }
 
     @Override
+    public void getRing(UsbRingCallback ringCallback) { this.ringCallback = ringCallback; }
+
+    @Override
     public void getCTS(UsbCTSCallback ctsCallback)
     {
         this.ctsCallback = ctsCallback;
@@ -417,6 +424,15 @@ public class CP2102SerialDevice extends UsbSerialDevice
                 {
                     byte[] modemState = pollLines();
                     byte[] commStatus = getCommStatus();
+
+
+                    // Handle ring line callback
+                    if (ringState !=  ((modemState[0] & 0x40) == 0x40))
+                    {
+                        ringState = !ringState;
+                        if (ringCallback != null)
+                            ringCallback.onRing(ringState);
+                    }
 
                     // Check CTS status
                     if(rtsCtsEnabled)

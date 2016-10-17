@@ -208,6 +208,13 @@ public class CDCSerialDevice extends UsbSerialDevice
 
     }
 
+
+    @Override
+    public void getRing(UsbRingCallback ringCallback)
+    {
+        //TODO
+    }
+
     @Override
     public void setFlowControl(int flowControl)
     {

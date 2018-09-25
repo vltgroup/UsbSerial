@@ -612,7 +612,7 @@ public class CP2102SerialDevice extends UsbSerialDevice
     {
         byte[] data = new byte[19];
         int response = connection.controlTransfer(CP210x_REQTYPE_DEVICE2HOST, CP210x_GET_COMM_STATUS, 0, mInterface.getId(), data, 19, USB_TIMEOUT);
-        Log.i(CLASS_ID, "Control Transfer Response (Comm status): " + String.valueOf(response));
+    //    Log.i(CLASS_ID, "Control Transfer Response (Comm status): " + String.valueOf(response));
         return data;
     }
 
